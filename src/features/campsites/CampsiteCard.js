@@ -1,9 +1,13 @@
 import { Card, CardImg, CardImgOverlay, CardTitle } from "reactstrap";
+import { Link } from 'react-router-dom';
+
 
 const CampsiteCard = ({campsite}) => {
-  const {name, image} = campsite;
+  const {id, name, image} = campsite;
   return (
-    <Card>
+
+      <Link to={`${id}`}>
+        <Card>
       <CardImg
         width="100%" src={image} alt={name}/>
       <CardImgOverlay>
@@ -11,6 +15,9 @@ const CampsiteCard = ({campsite}) => {
       </CardImgOverlay>
 
     </Card>
+  
+      </Link>
+    
     
   );
 };

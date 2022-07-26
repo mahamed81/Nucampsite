@@ -10,3 +10,11 @@ const rand =  Math.random() * ((CAMPSITES.length) - 0) + 0;
    // const randObj = CAMPSITES.find((obj)=> obj[rand]);
    return CAMPSITES[Math.floor(CAMPSITES.length * Math.random())];
 };
+
+export const selectCampsiteById = (id) => {
+  return CAMPSITES.find((campsite) => campsite.id === parseInt(id));
+};
+
+export const selectFeaturedCampsite = ()=>{
+  return CAMPSITES.find((campsite)=> campsite.featured);
+}
