@@ -1,16 +1,18 @@
 import {Col} from 'reactstrap';
 import Partner from './Partner';
 import {selectAllPartners} from './partnersSlice';
+import {useSelector} from 'react-redux'
+
 
 import React from 'react';
 
 const PartnersList = () => {
-  const parterns = selectAllPartners();
+  const partners = useSelector(selectAllPartners);
 
   return (
     <>
     <Col className='mt-4'> 
-      {parterns.map((partner)=>{
+      {partners.map((partner)=>{
         return(  
         <div className='d-flex mb-5' key={partner.id}>
             <Partner partner={partner}/>
