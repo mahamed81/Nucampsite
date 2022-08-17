@@ -4,6 +4,7 @@ import {selectAllPartners} from './partnersSlice';
 import {useSelector} from 'react-redux'
 
 
+
 import React from 'react';
 
 const PartnersList = () => {
@@ -21,6 +22,7 @@ const PartnersList = () => {
       })}
     
     </Col>
+
     </>
   );
 }
