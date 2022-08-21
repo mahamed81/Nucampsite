@@ -3,6 +3,13 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { baseUrl } from '../../app/shared/baseUrl';
 import { mapImageURL } from '../../utils/mapImageURL';
 
+
+const initialState = {
+    campsitesArray: [],
+    isLoading: true,
+    errMsg: ''
+};
+
 export const fetchCampsites = createAsyncThunk(
     'campsites/fetchCampsites',
     async () => {
@@ -15,11 +22,6 @@ export const fetchCampsites = createAsyncThunk(
     }
 );
 
-const initialState = {
-    campsitesArray: [],
-    isLoading: true,
-    errMsg: ''
-};
 
 const campsitesSlice = createSlice({
     name: 'campsites',
@@ -54,5 +56,11 @@ export const selectCampsiteById = (id) => (state) => {
 };
 
 export const selectFeaturedCampsite = (state) => {
-    return state.campsites.campsitesArray.find((campsite) => campsite.featured);
+    return {
+        featuredItem: state.campsites.campsitesArray.find(
+            (campsite) => campsite.featured
+        ),
+        isLoading: state.campsites.isLoading,
+        errMsg: state.campsites.errMsg
+    };
 };

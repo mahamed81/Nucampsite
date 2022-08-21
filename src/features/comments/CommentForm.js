@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { validateCommentForm } from "../../utils/validateCommentForm";
 import { addComment } from "./commentsSlice";
-import {useDispatch} from 'react-redux'
-
+import { useDispatch } from "react-redux";
+import { postComment } from "./commentsSlice";
 
 import {
   Button,
@@ -30,7 +30,7 @@ const CommentForm = ({ campsiteId }) => {
       text: values.commentText,
       date: new Date(Date.now()).toISOString(),
     };
-    dispatch(addComment(comment));
+    dispatch(postComment(comment));
     console.log(comment);
     setModalOpen(false);
   };
