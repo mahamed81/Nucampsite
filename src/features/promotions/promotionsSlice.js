@@ -9,6 +9,18 @@ const initialState = {
     errMsg: ''
 };
 
+
+export const fetchPromotions = createAsyncThunk(
+    'promotions/fetchPromotions',
+    async () => {
+        const response = await fetch(baseUrl + 'promotions');
+        if (!response.ok) {
+            return Promise.reject('Unable to fetch, status: ' + response.status);
+        }
+        const data = await response.json();
+        return data;
+    }
+);
 const promotionsSlice = createSlice({
     name: 'promotions',
     initialState,
@@ -41,14 +53,3 @@ export const selectFeaturedPromotion = (state) => {
     };
 };
 
-export const fetchPromotions = createAsyncThunk(
-    'promotions/fetchPromotions',
-    async () => {
-        const response = await fetch(baseUrl + 'promotions');
-        if (!response.ok) {
-            return Promise.reject('Unable to fetch, status: ' + response.status);
-        }
-        const data = await response.json();
-        return data;
-    }
-);

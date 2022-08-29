@@ -1,5 +1,8 @@
 import { Button, Label, Col, FormGroup } from "reactstrap";
 import { Formik, Field, Form } from "formik";
+import { postFeedback } from "../features/feedback/feedbackSlice";
+import { useDispatch } from "react-redux";
+
 
 const initialValues = {
   firstName: "",
@@ -12,9 +15,29 @@ const initialValues = {
 };
 
 const ContactForm = () => {
+  const dispatch = useDispatch();
+  const handleSubmit = (values) => {
+    const feedback = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      phoneNum: values.phoneNum,
+      email: values.email,
+      agree: values.agree,
+      contactType: values.contactType,
+      feedback: values.feedback,
+      date: new Date(Date.now()).toISOString(),
+    };
+    dispatch(postFeedback(feedback));
+    console.log(feedback);
+  };
+
+
   return (
     <>
-      <Formik initialValues={initialValues}>
+      <Formik 
+        
+          onSubmit={handleSubmit}
+          initialValues={initialValues}>
         <Form>
           <FormGroup row>
             <Label htmlFor="firstName" md="2">
@@ -88,6 +111,8 @@ const ContactForm = () => {
             </Col>
           </FormGroup>
           <FormGroup row></FormGroup>
+          <Button type='submit' color='primary'>Submit</Button>
+
         </Form>
       </Formik>
     </>
