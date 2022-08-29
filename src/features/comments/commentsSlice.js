@@ -2,12 +2,40 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { COMMENTS } from "../../app/shared/oldData/COMMENTS";
 import { baseUrl } from "../../app/shared/baseUrl";
 import { mapImageURL } from "../../utils/mapImageURL";
+import { async } from "q";
 
 const initialState = {
   commentsArray: [],
   isLoading: true,
   errMsg: "",
 };
+
+export const fetchComments = createAsyncThunk(
+  "comments/fetchComments",
+  async () => {
+    const response = await fetch(baseUrl + "comments");
+    if (!response.ok) {
+      return Promise.reject("Unable to fetch, status: " + response.status);
+    }
+    const data = await response.json();
+    return data;
+  }
+);
+export const postComment = createAsyncThunk(
+  "comments/postComment",
+  async(comment, { dispatch }) => {
+    const response = await fetch(baseUrl + "comments", {
+      method: "POST",
+      body: JSON.stringify(comment),
+      headers: { "Content-Type": "application/json" },
+    });
+    if (!response.ok) {
+      return Promise.reject("Unable to fetch, status: " + response.status);
+    }
+    const data = await response.json();
+    dispatch(addComment(data));
+  }
+);
 
 const commentsSlice = createSlice({
   name: "comments",
@@ -44,19 +72,6 @@ const commentsSlice = createSlice({
     },
   },
 });
-
-export const fetchComments = createAsyncThunk(
-  "comments/fetchComments",
-  async () => {
-    const response = await fetch(baseUrl + "comments");
-    if (!response.ok) {
-      return Promise.reject("Unable to fetch, status: " + response.status);
-    }
-    const data = await response.json();
-    return data;
-  }
-);
-
 export const commentsReducer = commentsSlice.reducer;
 
 export const { addComment } = commentsSlice.actions;
@@ -67,18 +82,3 @@ export const selectCommentsByCampsiteId = (campsiteId) => (state) => {
   );
 };
 
-export const postComment = createAsyncThunk(
-  "comments/postComment",
-  async (comment, { dispatch }) => {
-    const response = await fetch(baseUrl + "comments", {
-      method: "POST",
-      body: JSON.stringify(comment),
-      headers: { "Content-Type": "application/json" },
-    });
-    if (!response.ok) {
-      return Promise.reject("Unable to fetch, status: " + response.status);
-    }
-    const data = await response.json();
-    dispatch(addComment(data));
-  }
-);
